@@ -21,9 +21,9 @@ export class CategoryService {
     return this.categoryRepository.findAll();
   }
 
-  async findOne(id: string, userId?: string) {
+  async findOne(id: number, userId?: string) {
     return this.categoryRepository.findOne({
-      id: Number(id),
+      id: id,
       $or: [{ userId: null }, { userId }],
     });
   }
@@ -36,8 +36,8 @@ export class CategoryService {
     return category;
   }
 
-  async update(id: string, dto: UpdateCategoryDto, userId?: string) {
-    const category = await this.findOne(id, userId);
+  async update(id: number, dto: UpdateCategoryDto) {
+    const category = await this.categoryRepository.findOne(id);
     if (!category) return null;
 
     this.categoryRepository.assign(category, {
@@ -47,8 +47,8 @@ export class CategoryService {
     return category;
   }
 
-  async delete(id: string, userId?: string) {
-    const category = await this.findOne(id, userId);
+  async delete(id: number) {
+    const category = await this.categoryRepository.findOne(id);
     if (!category) return false;
 
     await this.em.removeAndFlush(category);

@@ -8,17 +8,12 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  findAll(
-    @Query('userId') userId?: string
-  ) {
+  findAll(@Query('userId') userId?: string) {
     return this.categoryService.findAll(userId);
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id') id: string, 
-    @Query('userId') userId?: string
-  ) {
+  async findOne(@Param('id') id: number, @Query('userId') userId?: string) {
     const category = await this.categoryService.findOne(id, userId);
     if (!category) {
       throw new NotFoundException('Category not found');
@@ -34,12 +29,8 @@ export class CategoryController {
 
   @Put(':id')
   @UsePipes(new ZodValidationPipe(UpdateCategorySchema))
-  async update(
-    @Param('id') id: string,
-    @Body() dto: any,
-    @Query('userId') userId?: string,
-  ) {
-    const category = await this.categoryService.update(id, dto, userId);
+  async update(@Param('id') id: number, @Body() dto: any) {
+    const category = await this.categoryService.update(id, dto);
     if (!category) {
       throw new NotFoundException('Category not found');
     }
@@ -47,11 +38,8 @@ export class CategoryController {
   }
 
   @Delete(':id')
-  async delete(
-    @Param('id') id: string, 
-    @Query('userId') userId?: string
-  ) {
-    const success = await this.categoryService.delete(id, userId);
+  async delete(@Param('id') id: number) {
+    const success = await this.categoryService.delete(id);
     if (!success) {
       throw new NotFoundException('Category not found');
     }
