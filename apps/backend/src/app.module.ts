@@ -5,6 +5,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { UserModule } from './modules/user/user.module';
 import { CategoryModule } from './modules/category/category.module';
 import { TransactionModule } from './modules/transaction/transaction.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TransactionModule } from './modules/transaction/transaction.module';
     UserModule,
     CategoryModule,
     TransactionModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

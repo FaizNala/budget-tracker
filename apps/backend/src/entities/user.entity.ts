@@ -11,6 +11,9 @@ export class User {
   @PrimaryKey({ type: 'uuid' })
   id: string = uuidv4();
 
+  @Property({ unique: true })
+  email!: string;
+
   @Property()
   name!: string;
 

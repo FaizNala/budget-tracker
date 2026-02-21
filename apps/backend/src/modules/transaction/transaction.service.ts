@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository, EntityManager } from '@mikro-orm/core';
 import { Transaction } from '../../entities/transaction.entity';
-import { CreateTransactionDto, UpdateTransactionDto } from './transaction.dto';
+import { CreateTransactionDto } from './transaction.dto';
 
 @Injectable()
 export class TransactionService {
@@ -31,8 +31,11 @@ export class TransactionService {
     return transaction;
   }
 
-  async update(id: number, dto: UpdateTransactionDto) {
-    const transaction = await this.transactionRepository.findOne(id);
+  async update(id: number, dto: CreateTransactionDto, userId: string) {
+    const transaction = await this.transactionRepository.findOne({
+      id,
+      userId,
+    });
     if (!transaction) return null;
 
     this.transactionRepository.assign(transaction, dto as any);
@@ -40,8 +43,11 @@ export class TransactionService {
     return transaction;
   }
 
-  async delete(id: number) {
-    const transaction = await this.transactionRepository.findOne(id);
+  async delete(id: number, userId: string) {
+    const transaction = await this.transactionRepository.findOne({
+      id,
+      userId,
+    });
     if (!transaction) return false;
 
     await this.em.removeAndFlush(transaction);

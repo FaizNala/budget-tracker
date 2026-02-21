@@ -3,12 +3,14 @@ import { z } from 'zod';
 export const UserRoleEnum = z.enum(['admin', 'user']);
 
 export const CreateUserSchema = z.object({
+  email: z.string().email(),
   name: z.string().min(1).max(100),
   password: z.string().min(6).max(100),
   role: UserRoleEnum.default('user'),
 });
 
 export const UpdateUserSchema = z.object({
+  email: z.string().email().optional(),
   name: z.string().min(1).max(100).optional(),
   password: z.string().min(6).max(100).optional(),
   role: UserRoleEnum.optional(),
@@ -16,6 +18,7 @@ export const UpdateUserSchema = z.object({
 
 export const UserResponseSchema = z.object({
   id: z.string().uuid(),
+  email: z.string().email(),
   name: z.string(),
   role: UserRoleEnum,
   createdAt: z.date(),

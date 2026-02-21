@@ -21,6 +21,10 @@ export class UserService {
     return this.userRepository.findOne({ id });
   }
 
+  async findByEmail(email: string) {
+    return this.userRepository.findOne({ email });
+  }
+
   async create(dto: CreateUserDto) {
     const user = this.userRepository.create({
       ...dto,
@@ -50,4 +54,3 @@ export class UserService {
     return true;
   }
 }
-

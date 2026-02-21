@@ -36,8 +36,11 @@ export class CategoryService {
     return category;
   }
 
-  async update(id: number, dto: UpdateCategoryDto) {
-    const category = await this.categoryRepository.findOne(id);
+  async update(id: number, dto: UpdateCategoryDto, userId: string) {
+    const category = await this.categoryRepository.findOne({
+      id,
+      $or: [{ userId: null }, { userId }],
+    });
     if (!category) return null;
 
     this.categoryRepository.assign(category, {
@@ -47,8 +50,11 @@ export class CategoryService {
     return category;
   }
 
-  async delete(id: number) {
-    const category = await this.categoryRepository.findOne(id);
+  async delete(id: number, userId: string) {
+    const category = await this.categoryRepository.findOne({
+      id,
+      $or: [{ userId: null }, { userId }],
+    });
     if (!category) return false;
 
     await this.em.removeAndFlush(category);
