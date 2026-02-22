@@ -4,3 +4,6 @@ dist
 coverage
 *.log
 package-lock.json
+pnpm-lock.yaml
+mikro-orm/migrations
+tsconfig.tsbuildinfo
